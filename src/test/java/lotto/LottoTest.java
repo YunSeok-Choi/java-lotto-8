@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class LottoTest {
@@ -21,5 +22,35 @@ class LottoTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    // TODO: 추가 기능 구현에 따른 테스트 코드 작성
+    @DisplayName("로또 번호가 1부터 45 사이의 범위를 벗어나면 예외가 발생한다.")
+    @Test
+    void 로또_번호_범위_검증() {
+        assertThatThrownBy(() -> new Lotto(List.of(0, 1, 2, 3, 4, 5)))
+                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new Lotto(List.of(1, 2, 3, 4, 5, 46)))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("로또 번호가 정상적으로 생성된다.")
+    @Test
+    void 로또_생성_성공() {
+        Lotto lotto = new Lotto(List.of(1, 2, 3, 4, 5, 6));
+        assertThat(lotto.getNumbers()).containsExactly(1, 2, 3, 4, 5, 6);
+    }
+
+    @DisplayName("로또 번호가 당첨 번호와 일치하는 개수를 정확히 계산한다.")
+    @Test
+    void 일치_개수_계산() {
+        Lotto lotto = new Lotto(List.of(1, 2, 3, 4, 5, 6));
+        List<Integer> winningNumbers = List.of(1, 2, 3, 7, 8, 9);
+        assertThat(lotto.countMatch(winningNumbers)).isEqualTo(3);
+    }
+
+    @DisplayName("로또 번호가 특정 번호를 포함하는지 확인한다.")
+    @Test
+    void 번호_포함_여부_확인() {
+        Lotto lotto = new Lotto(List.of(1, 2, 3, 4, 5, 6));
+        assertThat(lotto.contains(1)).isTrue();
+        assertThat(lotto.contains(7)).isFalse();
+    }
 }
