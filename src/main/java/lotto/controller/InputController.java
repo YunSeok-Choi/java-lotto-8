@@ -1,16 +1,54 @@
 package lotto.controller;
 
+import camp.nextstep.edu.missionutils.Console;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class InputController {
+    private static final String PURCHASE_PROMPT = "구입금액을 입력해 주세요.";
+    private static final String WINNING_PROMPT = "당첨 번호를 입력해 주세요.";
+    private static final String BONUS_PROMPT = "보너스 번호를 입력해 주세요.";
     private static final String NUMBER_DELIMITER = ",";
     private static final int LOTTO_MIN_NUMBER = 1;
     private static final int LOTTO_MAX_NUMBER = 45;
     private static final int PURCHASE_UNIT = 1_000;
     private static final int WINNING_NUMBER_COUNT = 6;
+
+    public int requestPurchaseAmount() {
+        while (true) {
+            try {
+                String input = readLine(PURCHASE_PROMPT);
+                return parsePurchaseAmount(input);
+            } catch (IllegalArgumentException exception) {
+                printError(exception);
+            }
+        }
+    }
+
+    public List<Integer> requestWinningNumbers() {
+        while (true) {
+            try {
+                String input = readLine(WINNING_PROMPT);
+                return parseWinningNumbers(input);
+            } catch (IllegalArgumentException exception) {
+                printError(exception);
+            }
+        }
+    }
+
+    public int requestBonusNumber(List<Integer> winningNumbers) {
+        while (true) {
+            try {
+                String input = readLine(BONUS_PROMPT);
+                return parseBonusNumber(input, winningNumbers);
+            } catch (IllegalArgumentException exception) {
+                printError(exception);
+            }
+        }
+    }
 
     public int parsePurchaseAmount(String input) {
         String trimmed = trim(input);
@@ -31,6 +69,15 @@ public class InputController {
         validateNumberRange(bonusNumber);
         validateBonusDuplicate(bonusNumber, winningNumbers);
         return bonusNumber;
+    }
+
+    private String readLine(String prompt) {
+        System.out.println(prompt);
+        return Console.readLine();
+    }
+
+    private void printError(IllegalArgumentException exception) {
+        System.out.println(exception.getMessage());
     }
 
     private String trim(String input) {
