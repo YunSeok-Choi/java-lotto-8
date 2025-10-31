@@ -1,4 +1,4 @@
-package lotto;
+package lotto.domain;
 
 import java.util.List;
 import java.util.Map;
@@ -8,7 +8,7 @@ public class LottoTickets {
     private final List<Lotto> tickets;
 
     public LottoTickets(List<Lotto> tickets) {
-        this.tickets = tickets;
+        this.tickets = List.copyOf(tickets);
     }
 
     public int getCount() {
