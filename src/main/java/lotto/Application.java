@@ -68,4 +68,17 @@ public class Application {
         }
         return aligned;
     }
+
+    static double calculateProfitRate(Map<Rank, Long> rankCounts, int purchaseAmount) {
+        long totalPrize = 0;
+        for (Rank rank : Rank.values()) {
+            if (rank == Rank.NONE) {
+                continue;
+            }
+            long count = rankCounts.getOrDefault(rank, 0L);
+            totalPrize += (long) rank.getPrize() * count;
+        }
+        double rate = (totalPrize * 100.0) / purchaseAmount;
+        return Math.round(rate * 10.0) / 10.0;
+    }
 }
