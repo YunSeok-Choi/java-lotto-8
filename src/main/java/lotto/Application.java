@@ -2,6 +2,7 @@ package lotto;
 
 import camp.nextstep.edu.missionutils.Randoms;
 import lotto.domain.Lotto;
+import lotto.domain.LottoTickets;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,5 +29,21 @@ public class Application {
         ));
         numbers.sort(Integer::compareTo);
         return new Lotto(numbers);
+    }
+
+    static LottoTickets generateTickets(int purchaseAmount) {
+        int ticketCount = calculateTicketCount(purchaseAmount);
+        List<Lotto> tickets = new ArrayList<>();
+        for (int index = 0; index < ticketCount; index++) {
+            tickets.add(createLotto());
+        }
+        return new LottoTickets(tickets);
+    }
+
+    static List<String> formatTicketNumbers(LottoTickets lottoTickets) {
+        return lottoTickets.getTickets().stream()
+                .map(Lotto::getNumbers)
+                .map(numbers -> numbers.toString())
+                .toList();
     }
 }
