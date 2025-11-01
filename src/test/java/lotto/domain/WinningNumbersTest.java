@@ -48,4 +48,13 @@ class WinningNumbersTest {
         Lotto lotto6 = new Lotto(List.of(1, 2, 8, 9, 10, 11));
         assertThat(winningNumbers.matchRank(lotto6)).isEqualTo(Rank.NONE);
     }
+
+    @DisplayName("당첨 번호와 로또 번호의 일치 개수를 계산한다.")
+    @Test
+    void 일치_개수_계산() {
+        WinningNumbers winningNumbers = new WinningNumbers(List.of(1, 2, 3, 4, 5, 6), 7);
+        Lotto lotto = new Lotto(List.of(1, 2, 3, 9, 10, 11));
+
+        assertThat(winningNumbers.countMatch(lotto)).isEqualTo(3);
+    }
 }
