@@ -3,10 +3,13 @@ package lotto;
 import camp.nextstep.edu.missionutils.Randoms;
 import lotto.domain.Lotto;
 import lotto.domain.LottoTickets;
+import lotto.domain.Rank;
 import lotto.domain.WinningNumbers;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 public class Application {
     static final int LOTTO_PRICE = 1_000;
@@ -52,5 +55,17 @@ public class Application {
         return lottoTickets.getTickets().stream()
                 .map(winningNumbers::countMatch)
                 .toList();
+    }
+
+    static Map<Rank, Long> calculateRankCounts(LottoTickets lottoTickets, WinningNumbers winningNumbers) {
+        Map<Rank, Long> counts = lottoTickets.calculateRanks(winningNumbers);
+        Map<Rank, Long> aligned = new EnumMap<>(Rank.class);
+        for (Rank rank : Rank.values()) {
+            if (rank == Rank.NONE) {
+                continue;
+            }
+            aligned.put(rank, counts.getOrDefault(rank, 0L));
+        }
+        return aligned;
     }
 }
