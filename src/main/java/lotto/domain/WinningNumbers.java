@@ -33,8 +33,12 @@ public class WinningNumbers {
     }
 
     public Rank matchRank(Lotto lotto) {
-        int matchCount = lotto.countMatch(winningLotto.getNumbers());
+        int matchCount = countMatch(lotto);
         boolean hasBonus = lotto.contains(bonusNumber);
         return Rank.of(matchCount, hasBonus);
+    }
+
+    public int countMatch(Lotto lotto) {
+        return lotto.countMatch(winningLotto.getNumbers());
     }
 }

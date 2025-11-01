@@ -3,6 +3,7 @@ package lotto;
 import camp.nextstep.edu.missionutils.Randoms;
 import lotto.domain.Lotto;
 import lotto.domain.LottoTickets;
+import lotto.domain.WinningNumbers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,12 @@ public class Application {
         return lottoTickets.getTickets().stream()
                 .map(Lotto::getNumbers)
                 .map(numbers -> numbers.toString())
+                .toList();
+    }
+
+    static List<Integer> calculateMatchCounts(LottoTickets lottoTickets, WinningNumbers winningNumbers) {
+        return lottoTickets.getTickets().stream()
+                .map(winningNumbers::countMatch)
                 .toList();
     }
 }
