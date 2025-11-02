@@ -1,6 +1,7 @@
 package lotto;
 
 import camp.nextstep.edu.missionutils.Randoms;
+import lotto.controller.InputController;
 import lotto.controller.OutputController;
 import lotto.domain.Lotto;
 import lotto.domain.LottoTickets;
@@ -19,7 +20,25 @@ public class Application {
     static final int LOTTO_NUMBER_COUNT = 6;
 
     public static void main(String[] args) {
-        // TODO: 프로그램 구현
+        InputController inputController = new InputController();
+        OutputController outputController = new OutputController();
+
+        int purchaseAmount = inputController.requestPurchaseAmount();
+        LottoTickets lottoTickets = generateTickets(purchaseAmount);
+
+        System.out.println();
+        printLines(outputController.buildPurchaseOutput(lottoTickets));
+        System.out.println();
+
+        List<Integer> winningNumbers = inputController.requestWinningNumbers();
+        int bonusNumber = inputController.requestBonusNumber(winningNumbers);
+        WinningNumbers winningNumbersDomain = new WinningNumbers(winningNumbers, bonusNumber);
+
+        Map<Rank, Long> rankCounts = calculateRankCounts(lottoTickets, winningNumbersDomain);
+        double profitRate = calculateProfitRate(rankCounts, purchaseAmount);
+
+        System.out.println();
+        printLines(outputController.buildStatisticsOutput(rankCounts, profitRate));
     }
 
     static int calculateTicketCount(int purchaseAmount) {
@@ -74,5 +93,9 @@ public class Application {
         }
         double rate = (totalPrize * 100.0) / purchaseAmount;
         return Math.round(rate * 10.0) / 10.0;
+    }
+
+    private static void printLines(List<String> lines) {
+        lines.forEach(System.out::println);
     }
 }
