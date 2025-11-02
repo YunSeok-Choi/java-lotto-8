@@ -107,4 +107,15 @@ class InputControllerTest {
         assertThatThrownBy(() -> inputController.parseBonusNumber("6", winningNumbers))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @DisplayName("구입 금액 입력 실패 시 에러 메시지를 출력하고 재시도한다.")
+    @Test
+    void requestPurchaseAmountRetry() {
+        InputController controller = new InputController();
+        controller.setScriptedInputs(List.of("오천원", "8000"));
+
+        int amount = controller.requestPurchaseAmount();
+
+        assertThat(amount).isEqualTo(8_000);
+    }
 }
