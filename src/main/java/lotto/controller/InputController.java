@@ -167,4 +167,9 @@ public class InputController {
         scriptedInputs.addAll(inputs);
         scriptIndex = 0;
     }
+
+    void clearScript() {
+        scriptedInputs.clear();
+        scriptIndex = 0;
+    }
 }
