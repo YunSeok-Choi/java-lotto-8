@@ -117,5 +117,6 @@ class InputControllerTest {
         int amount = controller.requestPurchaseAmount();
 
         assertThat(amount).isEqualTo(8_000);
+        controller.clearScript();
     }
 }
