@@ -17,6 +17,9 @@ public class InputController {
     private static final int PURCHASE_UNIT = 1_000;
     private static final int WINNING_NUMBER_COUNT = 6;
 
+    private final List<String> scriptedInputs = new ArrayList<>();
+    private int scriptIndex = 0;
+
     public int requestPurchaseAmount() {
         while (true) {
             try {
@@ -73,6 +76,9 @@ public class InputController {
 
     private String readLine(String prompt) {
         System.out.println(prompt);
+        if (scriptIndex < scriptedInputs.size()) {
+            return scriptedInputs.get(scriptIndex++);
+        }
         return Console.readLine();
     }
 
@@ -154,5 +160,11 @@ public class InputController {
         if (winningNumbers.contains(bonusNumber)) {
             throw new IllegalArgumentException("[ERROR] 보너스 번호는 당첨 번호와 중복될 수 없습니다.");
         }
+    }
+
+    void setScriptedInputs(List<String> inputs) {
+        scriptedInputs.clear();
+        scriptedInputs.addAll(inputs);
+        scriptIndex = 0;
     }
 }
