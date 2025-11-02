@@ -13,6 +13,6 @@ class ApplicationGenerateTicketsTest {
         LottoTickets lottoTickets = Application.generateTickets(5_000);
 
         assertThat(lottoTickets.getCount()).isEqualTo(5);
-        assertThat(Application.formatTicketNumbers(lottoTickets)).hasSize(5);
+        assertThat(lottoTickets.getTickets()).hasSize(5);
     }
 }

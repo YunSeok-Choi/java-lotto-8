@@ -1,6 +1,7 @@
 package lotto;
 
 import camp.nextstep.edu.missionutils.Randoms;
+import lotto.controller.OutputController;
 import lotto.domain.Lotto;
 import lotto.domain.LottoTickets;
 import lotto.domain.Rank;
@@ -42,13 +43,6 @@ public class Application {
             tickets.add(createLotto());
         }
         return new LottoTickets(tickets);
-    }
-
-    static List<String> formatTicketNumbers(LottoTickets lottoTickets) {
-        return lottoTickets.getTickets().stream()
-                .map(Lotto::getNumbers)
-                .map(numbers -> numbers.toString())
-                .toList();
     }
 
     static List<Integer> calculateMatchCounts(LottoTickets lottoTickets, WinningNumbers winningNumbers) {
